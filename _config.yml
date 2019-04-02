@@ -2,7 +2,7 @@
 permalink:           pretty
 
 # Setup
-title:               Andrew J Portal
+title:               Grit & Grid Search
 tagline:             A Data Science Blog
 url:                 http://Andrewjportal.github.io
 paginate:            2
@@ -19,15 +19,15 @@ sass:
 author:
   name:              Andrew Portal
   url:               
-  email:             
+  email:             andrewjportal@gmail.com
 
 # Custom vars
 version:             2.0.0
 github:
   repo:              https://github.com/Andrewjportal
 
-# Gems
-gems:
+# Formerly gems now plugins
+plugins:
   - jekyll-paginate
   - jekyll-gist
 

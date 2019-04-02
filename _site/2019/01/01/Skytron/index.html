@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      Skytron &middot; Grit & Grid Search
+    
+  </title>
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+  <link rel="alternate" type="application/atom+xml" title="Grit & Grid Search" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="container content">
+      <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="/" title="Home">Grit & Grid Search</a>
+          <small>A Data Science Blog:</small><br>
+          
+          &nbsp;&nbsp;&nbsp;
+          <small><a href="/about">About</a></small>
+          
+          &nbsp;&nbsp;&nbsp;
+          <small><a href="/archive">Archive</a></small>
+          
+          &nbsp;&nbsp;&nbsp;
+          <small><a href="/index.html">Feed</a></small>
+          
+        </h3>
+      </header>
+
+      <main>
+      <article class="post">
+  <h1 class="post-title">Skytron</h1>
+  <!--
+  <time datetime="2019-01-01T00:00:00-08:00" class="post-date">01 Jan 2019</time>
+  -->
+  <h2 id="overview">Overview</h2>
+<p>Skytron was built to detect anomalous flight paths in the Open Sky Network. However, it has a general use as a pipeline to analyze data as a stream and to train a model as a stream.</p>
+
+<h2 id="stream-vs-batch">Stream Vs Batch</h2>
+<p>Anomaly detection is best done in real time, as stream. If there is problem, the more time passes the greater the potential cost to fix. If you already have data as stream, then train the model as stream for the same consideration, timeliness. Rather than wait for a sufficiently sized batch, just hit the ground running a train of each piece of data as it comes in. This also all saves on storage, because rather than train on singular large batch, the model trains as loop continuously overwriting a small piece of data.</p>
+
+<p><em>Just to be clear, lack of historical data is a premise here. If you already have access to plenty of data then you don’t have wait to train on batch and the value of stream learning is for nought.</em></p>
+
+<h2 id="training-loop">Training Loop</h2>
+<p>The training loop makes an API call to the Open Sky Network collecting a flight vector (Longitude, Latitude, Altitude, Velocity, Heading) for ever flight in the network, waits 10 seconds and collect a second set of vectors, then trains on the two set; then predicts off the second set and overwrites the first for new set, evaluates prediction against new set, log errors, overwrites second set with newer set and repeats by train on the two new sets. In case this process was not clear, see the diagram below.</p>
+
+<p><img src="http://localhost:4000/images/stream-learn-process.png" alt="Image test" /></p>
+
+<h2 id="threading">Threading</h2>
+<p>While the training loop runs, I want extract information from model, such view current anomalies, extract a dictionary of all anomalies detected and the trained model once it has stabilized. Also, I want to  display a streaming set of plots for model evaluation. Threading enables these process to run in tandem on the same set of variables.  Threading is native to python, knowing its existence was key, but it’s implementation trivial. If needed, please review this technical diagram I made.</p>
+
+<p><img src="http://localhost:4000/images/tech-d.png" alt="Image test" />
+<em>-please note the little plane vectors</em></p>
+
+<h2 id="model">Model</h2>
+<p>The general framework of the model is simple. Each piece is modular. For example, I could use a tensor instead a vector and convolutional neural net instead of a multilayer perceptron to detect anomalous video streams instead of flight paths. The framework remains, so the underlying machinery is the same. One thing that shouldn’t change is the use of some kind of neural net. Otherwise, we need a function comparing  deviation in say latitude compared to velocity. A neural net saves us from this, because it will not optimize for one variable over another. Genearly, all the errors will be on a similar scale so that we can reasonably just take an average.</p>
+
+<p><img src="http://localhost:4000/images/model.png" alt="Image test" /></p>
+
+<h2 id="streaming-evaluation-plots">Streaming Evaluation Plots</h2>
+<p>With streaming data there is no classic train test split, because were are not waiting around for batches to accumulate and even more problematic we don’t have data labels. <em>That’s right folks, this is unsupervised learning.</em>(Kinda)**  I found the only option for validation is simply the eye test. I created two live streaming and just judge if the results intuitively made sense. Below, at the early stage the model is unstable, high error, thus I am not confident. Later, the model stabilizes and there is less variance in the anomalies detected, so I have more confidence. The results still do not make perfect sense, there were not 1,000 anomalous flight, at least in a meaningful sense. This could be artifact of the anomaly criterion being just one standard deviation. If were to check with three, the result might be more line with what I am looking for.</p>
+
+<p><img src="http://localhost:4000/images/plots.png" alt="Image test" /></p>
+
+<h2 id="future-work">Future Work</h2>
+<ul>
+  <li>Add the ability to run multiple models at once, select for the best performing model.</li>
+  <li>Be able tune anomaly criteria, in certain cases we might want to catch more or fewer anomalies</li>
+  <li>Test on a different kind of data stream with a different neural net. Ex. Golf swing video</li>
+</ul>
+
+</article>
+
+
+<aside class="related">
+  <h3>Related posts</h3>
+  <ul class="related-posts">
+    
+      <li>
+        <a href="/2019/01/01/YouTopics/">
+          YouTopics
+          <small><time datetime="2019-01-01T00:00:00-08:00">01 Jan 2019</time></small>
+        </a>
+      </li>
+    
+  </ul>
+</aside>
+
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          <!--
+          &copy; <time datetime="2019-04-02T16:56:23-07:00">2019</time>. All rights reserved.
+        -->
+        </small>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      YouTopics &middot; Grit & Grid Search
+    
+  </title>
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+  <link rel="alternate" type="application/atom+xml" title="Grit & Grid Search" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="container content">
+      <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="/" title="Home">Grit & Grid Search</a>
+          <small>A Data Science Blog:</small><br>
+          
+          &nbsp;&nbsp;&nbsp;
+          <small><a href="/about">About</a></small>
+          
+          &nbsp;&nbsp;&nbsp;
+          <small><a href="/archive">Archive</a></small>
+          
+          &nbsp;&nbsp;&nbsp;
+          <small><a href="/index.html">Feed</a></small>
+          
+        </h3>
+      </header>
+
+      <main>
+      <article class="post">
+  <h1 class="post-title">YouTopics</h1>
+  <!--
+  <time datetime="2019-01-01T00:00:00-08:00" class="post-date">01 Jan 2019</time>
+  -->
+  <h2 id="overview">Overview</h2>
+<p>YouTopics allows the user to quickly analyze the relevance of a youtube video.
+Given a user-generated list of keywords representing a topic,
+YouTopics measures the similarity between the user’s topic
+and a youtube video’s topic.</p>
+
+<h3 id="motivation">Motivation</h3>
+<p>YouTube has a lot information that can be analyzed with NLP thanks to
+transcripts and auto generated captions. Despite its popularity, I was unable
+to find example projects working with this information and so it appears youtube is an
+untouch trove of human communication waiting to be processed.</p>
+
+<h3 id="final-product">Final Product</h3>
+<p><img src="http://localhost:4000/images/youtopics.png" alt="Image test" />
+ YouTopics was built to be a web app, but the word embeddings file is too large to be hosted by services like Heroku and Google’s app engine. I can host it by opening up an aws server. If I end up doing so a link will posted here.</p>
+
+<h3 id="approach">Approach</h3>
+<p>My grand idea is to extract a summary of the transcripts or captions and then
+provide an appropriate topic label. The go to topic models are LDA - and SVD -.</p>
+
+<h4 id="lda">LDA:</h4>
+<blockquote>
+  <p>LDA takes a collection of documents and with an assumed number of topics, assumed distribution of topics across documents and assumed distribution of words across topics, the model will output, based on probability, a collection of words representing the assumed topics. Intuitively, given the high variance of topics and distributions across billions of videos, LDA won’t generalize well. (Or as dad would say, assume = ass + u + me)</p>
+</blockquote>
+
+<h4 id="svd">SVD</h4>
+<blockquote>
+  <p>I actually really like SVD, which is also known as the fundamental theorem of linear algebra. It’s the base technique for  many analytical methods. When applied to NLP it is often referred to as LSA-Latent Semantic Analysis.(There’s too many acronyms in this world). SVD takes a matrix, in this case a term by document matrix, and decomposes it into three matrices, a term by topics, topic by topic and topic by doc matrix. Like LDA, I fear the topics extracted will not be generally applicable.</p>
+</blockquote>
+
+<p>My goal is to analyze individual videos, so I will need a unique approach from the  LDA / SVD muti-doc one.
+Considering the outcome of LDA and SVD is just a list of keywords representing a topic and the python library Gensim has a built in TextRank algorithm that extracts keywords for a given document. I can use these keywords to represent topics and I can then assign a label based on the keywords similarity with pre-established topic. I can use pre-trained word vectors to compute this similarity.</p>
+
+<h4 id="word-vectors">Word Vectors</h4>
+<blockquote>
+  <p>Word2Vec and GLoVe word embedding map words to vector space where the distance between words is related to semantic similarity. The semantic similarity is computed with the Word2Vec by taking the parameters from a neural network prediction the surrounding words. GloVe uses a more direct approach, GloVe’s objective is to predict the log probability of word occurrence across the whole corpus. GloVe’s approach is more complicate, but produces generally better results than Word2Vec. Since, I am going to use Stanford’s pretrained model the complexity is not a concern, and so I will GloVe embeddings for the performance.</p>
+</blockquote>
+
+<p>I have determined a method to extract keywords and compare them. The last step is to extract a summary.
+NLP summary methods are divided into extractive and abstractive methods. Abstraction uses a lot of compute power to make new summary sentences. I prefer extracting important sentences from the document. It’s effective and conveys the same meaning.This is subjective but objective evaluation of NLP is a whole other problem. Gensim has a inbuilt summarizer based on BM25 along with TextRank.</p>
+
+<h4 id="textrank">TextRank</h4>
+<blockquote>
+  <p>Is the same algorithm as PageRank, assigns rank based on unique number of links. In TextRank, links are words in immediate proximity.</p>
+</blockquote>
+
+<h4 id="bm25">BM25</h4>
+<blockquote>
+  <p>Ranks sentences based on inverse frequency and frequency of keywords from TextRank. BM25
+is still obscure to me but it seems intuitively linked to the idea information entropy. A sentence value is based not just on frequency of keywords, but the information value the keywords have in the sentence. Regardless, the results pass the eye test.</p>
+</blockquote>
+
+<p>The next step is to extract the transcripts from youtube. This can be done through the youtube API. There is always a kind soul in the python communities who will implement a python version of popular API’s. In this case I found PyTube.</p>
+
+<h4 id="pytube">PyTube</h4>
+<blockquote>
+  <p>Works great. Thanks, stranger.<a href="https://github.com/nficano/pytube">Link to the repo</a></p>
+</blockquote>
+
+<h3 id="future-work">Future Work</h3>
+<p>Add a database storage function for user defined topics. Then apply
+database of topics for more robust topic analysis. Add multi-topic
+analysis functionality.</p>
+
+
+</article>
+
+
+<aside class="related">
+  <h3>Related posts</h3>
+  <ul class="related-posts">
+    
+      <li>
+        <a href="/2019/01/01/Skytron/">
+          Skytron
+          <small><time datetime="2019-01-01T00:00:00-08:00">01 Jan 2019</time></small>
+        </a>
+      </li>
+    
+  </ul>
+</aside>
+
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          <!--
+          &copy; <time datetime="2019-04-02T16:56:23-07:00">2019</time>. All rights reserved.
+        -->
+        </small>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
