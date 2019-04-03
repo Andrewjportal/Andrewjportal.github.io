@@ -4,7 +4,7 @@
  <title>Grit & Grid Search</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-04-02T17:24:55-07:00</updated>
+ <updated>2019-04-02T17:39:23-07:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Andrew Portal</name>
@@ -13,10 +13,54 @@
 
  
  <entry>
+   <title>Skytron</title>
+   <link href="http://localhost:4000/2019/03/25/Skytron/"/>
+   <updated>2019-03-25T00:00:00-07:00</updated>
+   <id>http://localhost:4000/2019/03/25/Skytron</id>
+   <content type="html">&lt;hr /&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;Skytron was built to detect anomalous flight paths in the Open Sky Network. However, it has a general use as a pipeline to analyze data as a stream and to train a model as a stream.&lt;/p&gt;
+
+&lt;h2 id=&quot;stream-vs-batch&quot;&gt;Stream Vs Batch&lt;/h2&gt;
+&lt;p&gt;Anomaly detection is best done in real time, as stream. If there is problem, the more time passes the greater the potential cost to fix. If you already have data as stream, then train the model as stream for the same consideration, timeliness. Rather than wait for a sufficiently sized batch, just hit the ground running a train of each piece of data as it comes in. This also all saves on storage, because rather than train on singular large batch, the model trains as loop continuously overwriting a small piece of data.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Just to be clear, lack of historical data is a premise here. If you already have access to plenty of data then you don’t have wait to train on batch and the value of stream learning is for nought.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;training-loop&quot;&gt;Training Loop&lt;/h2&gt;
+&lt;p&gt;The training loop makes an API call to the Open Sky Network collecting a flight vector (Longitude, Latitude, Altitude, Velocity, Heading) for ever flight in the network, waits 10 seconds and collect a second set of vectors, then trains on the two set; then predicts off the second set and overwrites the first for new set, evaluates prediction against new set, log errors, overwrites second set with newer set and repeats by train on the two new sets. In case this process was not clear, see the diagram below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/stream-learn-process.png&quot; alt=&quot;Image test&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;threading&quot;&gt;Threading&lt;/h2&gt;
+&lt;p&gt;While the training loop runs, I want extract information from model, such view current anomalies, extract a dictionary of all anomalies detected and the trained model once it has stabilized. Also, I want to  display a streaming set of plots for model evaluation. Threading enables these process to run in tandem on the same set of variables.  Threading is native to python, knowing its existence was key, but it’s implementation trivial. If needed, please review this technical diagram I made.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/tech-d.png&quot; alt=&quot;Image test&quot; /&gt;
+&lt;em&gt;-please note the little plane vectors&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;model&quot;&gt;Model&lt;/h2&gt;
+&lt;p&gt;The general framework of the model is simple. Each piece is modular. For example, I could use a tensor instead a vector and convolutional neural net instead of a multilayer perceptron to detect anomalous video streams instead of flight paths. The framework remains, so the underlying machinery is the same. One thing that shouldn’t change is the use of some kind of neural net. Otherwise, we need a function comparing  deviation in say latitude compared to velocity. A neural net saves us from this, because it will not optimize for one variable over another. Genearly, all the errors will be on a similar scale so that we can reasonably just take an average.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/model.png&quot; alt=&quot;Image test&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;streaming-evaluation-plots&quot;&gt;Streaming Evaluation Plots&lt;/h2&gt;
+&lt;p&gt;With streaming data there is no classic train test split, because were are not waiting around for batches to accumulate and even more problematic we don’t have data labels. &lt;em&gt;That’s right folks, this is unsupervised learning.&lt;/em&gt;(Kinda)**  I found the only option for validation is simply the eye test. I created two live streaming and just judge if the results intuitively made sense. Below, at the early stage the model is unstable, high error, thus I am not confident. Later, the model stabilizes and there is less variance in the anomalies detected, so I have more confidence. The results still do not make perfect sense, there were not 1,000 anomalous flight, at least in a meaningful sense. This could be artifact of the anomaly criterion being just one standard deviation. If were to check with three, the result might be more line with what I am looking for.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/plots.png&quot; alt=&quot;Image test&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;future-work&quot;&gt;Future Work&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Add the ability to run multiple models at once, select for the best performing model.&lt;/li&gt;
+  &lt;li&gt;Be able tune anomaly criteria, in certain cases we might want to catch more or fewer anomalies&lt;/li&gt;
+  &lt;li&gt;Test on a different kind of data stream with a different neural net. Ex. Golf swing video&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>YouTopics</title>
-   <link href="http://localhost:4000/2019/01/01/YouTopics/"/>
-   <updated>2019-01-01T00:00:00-08:00</updated>
-   <id>http://localhost:4000/2019/01/01/YouTopics</id>
+   <link href="http://localhost:4000/2019/03/08/YouTopics/"/>
+   <updated>2019-03-08T00:00:00-08:00</updated>
+   <id>http://localhost:4000/2019/03/08/YouTopics</id>
    <content type="html">&lt;hr /&gt;
 &lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;YouTopics allows the user to quickly analyze the relevance of a youtube video.
@@ -82,50 +126,6 @@ is still obscure to me but it seems intuitively linked to the idea information e
 database of topics for more robust topic analysis. Add multi-topic
 analysis functionality.&lt;/p&gt;
 
-</content>
- </entry>
- 
- <entry>
-   <title>Skytron</title>
-   <link href="http://localhost:4000/2019/01/01/Skytron/"/>
-   <updated>2019-01-01T00:00:00-08:00</updated>
-   <id>http://localhost:4000/2019/01/01/Skytron</id>
-   <content type="html">&lt;hr /&gt;
-&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
-&lt;p&gt;Skytron was built to detect anomalous flight paths in the Open Sky Network. However, it has a general use as a pipeline to analyze data as a stream and to train a model as a stream.&lt;/p&gt;
-
-&lt;h2 id=&quot;stream-vs-batch&quot;&gt;Stream Vs Batch&lt;/h2&gt;
-&lt;p&gt;Anomaly detection is best done in real time, as stream. If there is problem, the more time passes the greater the potential cost to fix. If you already have data as stream, then train the model as stream for the same consideration, timeliness. Rather than wait for a sufficiently sized batch, just hit the ground running a train of each piece of data as it comes in. This also all saves on storage, because rather than train on singular large batch, the model trains as loop continuously overwriting a small piece of data.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Just to be clear, lack of historical data is a premise here. If you already have access to plenty of data then you don’t have wait to train on batch and the value of stream learning is for nought.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;training-loop&quot;&gt;Training Loop&lt;/h2&gt;
-&lt;p&gt;The training loop makes an API call to the Open Sky Network collecting a flight vector (Longitude, Latitude, Altitude, Velocity, Heading) for ever flight in the network, waits 10 seconds and collect a second set of vectors, then trains on the two set; then predicts off the second set and overwrites the first for new set, evaluates prediction against new set, log errors, overwrites second set with newer set and repeats by train on the two new sets. In case this process was not clear, see the diagram below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/stream-learn-process.png&quot; alt=&quot;Image test&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;threading&quot;&gt;Threading&lt;/h2&gt;
-&lt;p&gt;While the training loop runs, I want extract information from model, such view current anomalies, extract a dictionary of all anomalies detected and the trained model once it has stabilized. Also, I want to  display a streaming set of plots for model evaluation. Threading enables these process to run in tandem on the same set of variables.  Threading is native to python, knowing its existence was key, but it’s implementation trivial. If needed, please review this technical diagram I made.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/tech-d.png&quot; alt=&quot;Image test&quot; /&gt;
-&lt;em&gt;-please note the little plane vectors&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;model&quot;&gt;Model&lt;/h2&gt;
-&lt;p&gt;The general framework of the model is simple. Each piece is modular. For example, I could use a tensor instead a vector and convolutional neural net instead of a multilayer perceptron to detect anomalous video streams instead of flight paths. The framework remains, so the underlying machinery is the same. One thing that shouldn’t change is the use of some kind of neural net. Otherwise, we need a function comparing  deviation in say latitude compared to velocity. A neural net saves us from this, because it will not optimize for one variable over another. Genearly, all the errors will be on a similar scale so that we can reasonably just take an average.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/model.png&quot; alt=&quot;Image test&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;streaming-evaluation-plots&quot;&gt;Streaming Evaluation Plots&lt;/h2&gt;
-&lt;p&gt;With streaming data there is no classic train test split, because were are not waiting around for batches to accumulate and even more problematic we don’t have data labels. &lt;em&gt;That’s right folks, this is unsupervised learning.&lt;/em&gt;(Kinda)**  I found the only option for validation is simply the eye test. I created two live streaming and just judge if the results intuitively made sense. Below, at the early stage the model is unstable, high error, thus I am not confident. Later, the model stabilizes and there is less variance in the anomalies detected, so I have more confidence. The results still do not make perfect sense, there were not 1,000 anomalous flight, at least in a meaningful sense. This could be artifact of the anomaly criterion being just one standard deviation. If were to check with three, the result might be more line with what I am looking for.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/plots.png&quot; alt=&quot;Image test&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;future-work&quot;&gt;Future Work&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;Add the ability to run multiple models at once, select for the best performing model.&lt;/li&gt;
-  &lt;li&gt;Be able tune anomaly criteria, in certain cases we might want to catch more or fewer anomalies&lt;/li&gt;
-  &lt;li&gt;Test on a different kind of data stream with a different neural net. Ex. Golf swing video&lt;/li&gt;
-&lt;/ul&gt;
 </content>
  </entry>
  
