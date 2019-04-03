@@ -4,7 +4,7 @@
  <title>Grit & Grid Search</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-04-02T16:56:23-07:00</updated>
+ <updated>2019-04-02T17:24:55-07:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Andrew Portal</name>
@@ -17,7 +17,8 @@
    <link href="http://localhost:4000/2019/01/01/YouTopics/"/>
    <updated>2019-01-01T00:00:00-08:00</updated>
    <id>http://localhost:4000/2019/01/01/YouTopics</id>
-   <content type="html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+   <content type="html">&lt;hr /&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;YouTopics allows the user to quickly analyze the relevance of a youtube video.
 Given a user-generated list of keywords representing a topic,
 YouTopics measures the similarity between the user’s topic
@@ -89,7 +90,8 @@ analysis functionality.&lt;/p&gt;
    <link href="http://localhost:4000/2019/01/01/Skytron/"/>
    <updated>2019-01-01T00:00:00-08:00</updated>
    <id>http://localhost:4000/2019/01/01/Skytron</id>
-   <content type="html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+   <content type="html">&lt;hr /&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;Skytron was built to detect anomalous flight paths in the Open Sky Network. However, it has a general use as a pipeline to analyze data as a stream and to train a model as a stream.&lt;/p&gt;
 
 &lt;h2 id=&quot;stream-vs-batch&quot;&gt;Stream Vs Batch&lt;/h2&gt;
