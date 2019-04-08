@@ -29,7 +29,7 @@ The data set is imbalanced with approvals to rejections at 16 to 1. Accuracy wou
 #### Roc-Auc Score
 > In place of accuracy, the metrics of precision and recall are used. They measure false positives and false negative respectively (TP/(TP+FP), TP/(TP+FN) ). There is a natural tradeoff between these metrics. If you want minimize false positives, assign everything to the negative class and vice versa. ROC curve(receiver operating characteristic curve) plots this trade off. Then we compute the AUC (area under curve) and we have the Roc-Auc Score, which measures the overall model performance across precision and recall.
 
-The best submissions scored around .92 Roc-Auc score. If the model always predicted approve, the Roc-Auc would be .85. To evaluate Catboost, a score around .92 would be very good and .85 would poor.
+The best submissions scored around .92 Roc-Auc score. If the model always predicted approve, the Roc-Auc would be .85. To evaluate Catboost, a score around .92 would be very good and .85 would be poor.
 
 
 
