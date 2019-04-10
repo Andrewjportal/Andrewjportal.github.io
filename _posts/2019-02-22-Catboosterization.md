@@ -9,11 +9,11 @@ title: Catboosterization
 This project uses data from Kaggle's Amazon.com - Employee Access Challenge and applies the Catboost algorithm to predict employee resource access based on role attributes. These role attributes are all categorical. Catboost is a boosted tree algorithm similar to XGBoost, designed to work well with largely categorical data.
 
 ## Motivation
-Categorical data is not rare. Everyday we make decision based on categorical heuristics. An example is food,yellow bananas are good ... brown not so much. However, generally machine learning models perform better with numeric values and so categorical data is often ignored. Having Catboost in our toolbox expands the data we can work with and ultimately expands what can be accomplished through Data Science.
+Categorical data is not rare. Everyday we make decision based on categorical heuristics. An example is food,yellow bananas are good ... brown not so much. However, generally machine learning models perform better with numeric values and so large amounts of categorical data are often excluded. Having Catboost in our toolbox expands the data we can work with and ultimately expands what can be accomplished through Data Science. 
 
 
 ## Why not XGBoost
-XGBoost, as it is implemented in sklearn, automatically one hot encodes categorical data. This a problem when a feature contains thousands of unique categories. One hot encoding takes each unique category (minus one) and turns it into a feature with a binary value. A large number of features can generally lead to a problem knowns as the [curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality). Specifically tree based algorithms select some features to be roots and some branches. It can go through every possible combination, which is prohibitivly expensive. Or it takes a random subset, which in this case unlikely selects anything of value with most features being dummy variables of zero or one.
+XGBoost, as implemented in sklearn, automatically one hot encodes categorical data. One hot encoding takes each unique category (minus one) and turns it into a binary feature. This a problem when a feature contains thousands of unique categories, because the model will then have thousands of features. A large number of features can generally lead to a problem known as the [curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality). Specifically tree based algorithms select some features to be roots and some branches. It can go through every possible combination,which is prohibitivly expensive. Or it takes a random subset, which in this case unlikely selects anything of value with most features being dummy variables of zero or one.
 
 ![Image test]({{ site.url }}/images/Unique_cat.png)
 
@@ -25,16 +25,16 @@ XGBoost, as it is implemented in sklearn, automatically one hot encodes categori
 
 
 ### Evaluation
-The data set is imbalanced with approvals to rejections at 16 to 1. Accuracy would be a poor evaluation metric (predicting approval everytime score 94%) and since the Kaggle competition used Roc-Auc score, I will as well. 
+The data set is imbalanced with approvals to rejections at 16 to 1. Accuracy would be a poor evaluation metric (predicting approval everytime would score 94%) and since the Kaggle competition used Roc-Auc score, I will as well. 
 #### Roc-Auc Score
-> In place of accuracy, the metrics of precision and recall are used. They measure false positives and false negative respectively (TP/(TP+FP), TP/(TP+FN) ). There is a natural tradeoff between these metrics. If you want minimize false positives, assign everything to the negative class and vice versa. ROC curve(receiver operating characteristic curve) plots this trade off. Then we compute the AUC (area under curve) and we have the Roc-Auc Score, which measures the overall model performance across precision and recall.
+> In place of accuracy, the metrics of precision and recall are used. They measure false positives and false negative respectively (TP/(TP+FP),TP/(TP+FN) ). There is a natural tradeoff between these metrics. If you want minimize false positives, assign everything to the negative class and vice versa. ROC curve(receiver operating characteristic curve) plots this trade off. Then we compute the AUC (area under curve) and we have the Roc-Auc Score, which measures the overall model performance across precision and recall.
 
 The best submissions scored around .92 Roc-Auc score. If the model always predicted approve, the Roc-Auc would be .85. To evaluate Catboost, a score around .92 would be very good and .85 would be poor.
 
 
 
 ## Performance
-Right out of the box, Catboost had ROC-AUC score of around .89.  I know we can do better. Yet performing a grid search did not produce higher scores. This grid search was not exhaustive. Catboost, has a lot of machinery under the hood that will select for optimal parameters. A full grid search across all parameters would likely be redundant and I believe why I couldn't break the .89 threshold. However, I noticed diversity in the confusion matrices. This indicated the models were producing different results despite similar scores. This indicated potential for ensembling.
+Right out of the box, Catboost had ROC-AUC score of around .89. I know we can do better. Yet performing a grid search did not produce higher scores. Catboost, has a lot of machinery under the hood that will select for optimal parameters. A full grid search across all parameters would likely be redundant and I believe why I couldn't break the .89 threshold. However, I noticed diversity in the confusion matrices. This indicated the models were producing different results despite similar scores. This indicated potential for ensembling.
 
 >Ensembling basically means combining models together. Models with significant diversity tend to produce better results, the intuition being variances and biases of individual models are balanced against each other. Models can be assembled via a voting system, max voting, average voting and weighted voting.  Another method is stacking, which takes the output of one model feeds into another. Boosted models are already stacked. Catboost's algorithm will continuously add trees until model performance stops improving, so I don't think there is much to gain with additional stacking. Ensembling via voting is the path forward here.
 
