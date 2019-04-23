@@ -24,17 +24,18 @@ My idea is to extract a summary of the transcripts or captions and then provide 
 #### SVD
 > I actually really like SVD, which is also known as the fundamental theorem of linear algebra. It's the base technique for many analytical methods. When applied to NLP it is often referred to as LSA-Latent Semantic Analysis. SVD takes a matrix, in this case a term by document matrix, and decomposes it into three matrices, a term by topics,topic by topic and topic by doc matrix. Once again, however, the number of topics are guessed or assumed.
 
-Both methods take a sample of documents to generate word lists representing topics.  
+Both methods take a sample of documents to generate word lists representing topics. Finding a sample large enough to generalize these models to all of YouTube would be impractical. So, I came up with a different approach.
 
 
 
-Considering the outcome of LDA and SVD is just a list of keywords representing a topic and the python library Gensim has a built in TextRank algorithm that extracts keywords for a given document. I can use these keywords to represent topics and I can then assign a label based on the keywords similarity with pre-established topic keywords. I can use pre-trained word vectors to compute this similarity.
+Considering the outcome of LDA and SVD is just a list of keywords representing a topic and the python library Gensim has a built in TextRank algorithm that extracts keywords for a given document. I used these keywords to represent topics and I then assign a label based on the keywords similarity with pre-established topic keywords. I  used pre-trained word vectors to compute this similarity.
 
 #### Word Vectors
-> Word2Vec and GLoVe word embedding map words to vector space where the distance between words is related to semantic similarity. The semantic similarity is computed with the Word2Vec by taking the parameters from a neural network prediction the surrounding words. GloVe uses a more direct approach, GloVe's objective is to predict the log probability of word occurrence across the whole corpus. GloVe's approach is more complicate, but produces generally better results than Word2Vec. Since, I am going to use Stanford's pretrained model the complexity is not a concern, and so I will GloVe embeddings for the performance.
+> Word2Vec and GLoVe word embedding map words to vector space where the distance between words relates semantic similarity. With Word2Vec, the semantic similarity is computed by taking the parameters from a neural network prediction of surrounding words. GloVe uses a more direct approach, GloVe's objective is to predict the log probability of word occurrence across the whole corpus. GloVe's approach produces generally better results than Word2Vec, though it is more difficult to trian. Since, I am going to using pretrained models anyway, I decided to use GloVe.
 
 I have determined a method to extract keywords and compare them. The last step is to extract a summary.
-NLP summary methods are divided into extractive and abstractive methods. Abstraction uses a lot of compute power to make new summary sentences. I prefer extracting important sentences from the document. It's effective and conveys the same meaning.This is subjective but objective evaluation of NLP is a whole other problem. Gensim has a inbuilt summarizer based on BM25 along with TextRank.
+NLP summary methods are divided into extractive and abstractive methods. Abstraction uses a lot of compute power to make new summary sentences.I prefer extraction, which from summaries by just pulling important sentences from the document. It effectively convay the same meaning while using less computing power. Gensim has an inbuilt summarizer based on BM25 along with TextRank.
+
 
 #### TextRank
 > Is the same algorithm as PageRank, assigns rank based on unique number of links. In TextRank, links are words in immediate proximity.
