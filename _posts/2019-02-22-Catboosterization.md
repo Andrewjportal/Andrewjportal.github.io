@@ -13,7 +13,7 @@ Categorical data is not rare. Everyday we make decision based on categorical heu
 
 
 ## Why not XGBoost
-XGBoost, as implemented in sklearn, automatically one hot encodes categorical data. One hot encoding takes each unique category (minus one) and turns it into a binary feature. This a problem when a feature contains thousands of unique categories, because the model will then have thousands of features. A large number of features can generally lead to a problem known as the [curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality). Specifically tree based algorithms select some features to be roots and some branches. It can go through every possible combination,which is prohibitivly expensive. Or it takes a random subset, which in this case unlikely selects anything of value with most features being dummy variables of zero or one.
+XGBoost, as implemented in sklearn, automatically one hot encodes categorical data. One hot encoding takes each unique category (minus one) and turns it into a binary feature. This a problem when a feature contains thousands of unique categories, because the model will then have thousands of features. A large number of features can generally lead to a problem known as the [curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality). Specifically tree based algorithms select some features to be roots and some branches. It can go through every possible combination,which is prohibitively expensive. Or it takes a random subset, which in this case unlikely selects anything of value with most features being dummy variables of zero or one.
 
 ![Image test]({{ site.url }}/images/Unique_cat.png)
 
