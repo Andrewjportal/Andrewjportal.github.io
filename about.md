@@ -8,7 +8,7 @@ title: About
  
 </p>
 
- ![Image test]({{ site.url }}/images/me.jpg)
+ ![Image test]({{ site.url }}/images/me3.jpg)
 
 
 
