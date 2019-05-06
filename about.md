@@ -30,7 +30,7 @@ I enrolled in Metis, a data science training program I completed Jan-Mar 2019. A
 * Like watching shows and movies, though I am often dissatisfied with the ending
 * Came to San Francisco from Virginia via a cross country road trip, which was pretty cool
 
-![Image test]({{ site.url }}/images/us.jpeg)
+![Image test]({{ site.url }}/images/us2.jpeg)
 Moab, Utah
 
 
