@@ -27,8 +27,8 @@ I enrolled in Metis, a data science training program I completed Jan-Mar 2019. A
 ### Some fun facts about me.
 
 * Enjoy sports, particularly basketball, golf, tennis
-* Like watching shows and movies, though I am often dissatisfied with the ending
-* Came to San Francisco from Virginia via a cross country road trip, which was pretty cool
+* Like watching shows and movies, though I am very particular about endings
+* Came to San Francisco from Virginia via a cross country road trip
 
 ![Image test]({{ site.url }}/images/us2.jpeg)
 Moab, Utah
