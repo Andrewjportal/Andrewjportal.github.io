@@ -6,7 +6,7 @@ title: DecadeStyles
 ## Overview
 For this task, I wanted to build a clothing style classifier by decade. I could not find an existing dataset labeling attire style by decade, so I built one manually from Google images. Once this process was complete, I used transfer learning on a pre-trained deep-learning model to build my classifier.
 
-Link to application:[DecadeStyles](http://3.14.148.127:5000/DecadeStyles)
+
 
 ## Data Collection
 The magician's secret of machine learning is dataset quality ultimately determines the quality of results. I could not simply pull all the results from a Google search query because there was too much variation across images. I needed relatively standardized images, individuals with a full outfit with minimal background. The more variation the more challenging the learning task and ultimately more images required to increase accuracy. I built a dataset containing 100 images per category. I restricted the images to women's attire and combined decades because there were too few image results for men, and relatively few per each individual decade. To further maximize my small data pool, I augmented existing data by applying horizontal flips to images.
