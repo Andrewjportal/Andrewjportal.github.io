@@ -7,10 +7,8 @@ title: DecadeStyles
 For this task, I wanted to build a clothing style classifier by decade. I could not find an existing dataset labeling attire style by decade, so I built one manually from Google images. Once this process was complete, I used transfer learning on a pre-trained deep-learning model to build my classifier.
 
 
-
 ## Data Collection
-The magician's secret of machine learning is dataset quality ultimately determines the quality of results. I could not simply pull all the results from a Google search query because there was too much variation across images. I needed relatively standardized images, individuals with a full outfit with minimal background. The more variation the more challenging the learning task and ultimately more images required to increase accuracy. I built a dataset containing 100 images per category. I restricted the images to women's attire and combined decades because there were too few image results for men, and relatively few per each individual decade. To further maximize my small data pool, I augmented existing data by applying horizontal flips to images.
-
+With any machine learning application, dataset quality ultimately determines the quality of results. There are plenty of well optimized open source ML models, quality data sets are the real limiting agent. For this project I could not find a pre-existing data set. Also, I could not simply pull results from a Google search because there was too much variation across images. I needed relatively standardized images, individuals with a full outfit with minimal background. The more variation the more challenging the learning task and ultimately more images required to increase accuracy. I built a dataset containing 100 images per category. I restricted the images to women's attire and combined decades because there were too few image results for men, and relatively few per each individual decade. To further maximize my small data pool, I augmented existing data by applying horizontal flips to images. With such limited data, the project can only serve as a proof of concept and framework to build a truly functional application.
 
 
 ## Machine Learning
@@ -24,8 +22,8 @@ The model achieved a categorical accuracy of 73% on the validation set. Accuracy
 
 As this report shows, the major driver of error in the model is the 1940-1950s category, which has low recall (lots of false negatives).
 
-##Image Preprocessing 
-Most of the data I am collecting is rectangular.  To fit the VGG16  mode, I need to reshape it into a 244 by 244 square matrix.  Without resizing image, this will distort the aspect ratio and potentially hurt the model's learning. Luckily, Tensorflow has an inbuilt function "tf.resize" that can resize an image without aspect distortion. It does so by shrinking the image and then padding the surrounding areas. The padding needs to be smoothed to avoid hard edges that would confound the model. This padding is computed using three possible functions, Nearest Neighbor, BIliear and Bicubic. I ran a test on these three methods and graphed the results below.
+## Image Preprocessing 
+Most of the data I am collecting is rectangular.  To fit the VGG16  mode, I need to reshape it into a 244 by 244 square matrix.  Without resizing the image, this will distort the aspect ratio and potentially hurt the model's learning. Luckily, Tensorflow has an inbuilt function "tf.resize" that can resize an image without aspect distortion. It does so by shrinking the image and then padding the surrounding areas. The padding needs to be smoothed to avoid hard edges that would confound the model. This padding is computed using three possible functions, Nearest Neighbor, BIlinear and Bicubic. I ran a test on these three methods and graphed the results below.
 
 ![Image test]({{ site.url }}/images/pad_result.png)
 ![Image test]({{ site.url }}/images/pad_labels.png)
@@ -36,6 +34,4 @@ It appears the model using the bicubic function to pad achieved a higher validat
 ## Future Work
 In addition to building a larger dataset, focusing on specific elements of clothing could achieve better results. For example, it would be powerful to train the machine to locate pant legs and identify bell bottoms, marking the style as 70s. With enough data, an ML algorithm would learn this on its own, but directed training achieves a better result with fewer images. Training a model to identify pant legs and collars is not trivial, and with time I can build on work that has been done in this area (see DeepFashion).
 
-I could also further expand my data labels and training to other types of categories, like sub-cultures (hippie, punk) or levels of formality (semi-formal, business-casual) This model forms a nice base of work to expand on.
-
-
+I could also further expand my data labels and training to other types of categories, like subcultures (hippie, punk) or levels of formality (semi-formal, business-casual) This model forms a nice base of work to expand on.
