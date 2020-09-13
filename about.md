@@ -9,13 +9,12 @@ title: About
 
 
 ### Grit & Grid?
-In machine learning, grid search refers to cycling hyper-parameters of a model to find the optimal set. Grit comes into play because inevitably some  exhaustive manual process of trial and error come into play when developing.  Together these words articulate  the process of I building machine learning applications … and happen to form an alliteration.
-
+In machine learning, grid search refers to cycling hyper-parameters of a model to find the optimal set. Grit comes into play because inevitably some exhaustive manual process of trial and error comes into play when developing.  Together these words articulate the process of I building machine learning applications … and happen to form an alliteration.
 
 ### How I got started?
-While working in an Excel-based role as a project analyst for several years after graduating, I began learning programming to automate my work tasks. I quit my job in summer 2018 and moved to San Francisco and spent the end of 2018 focused on self-study of programming, which is when I encountered machine learning. 
+While working as an analyst for several years after graduating, I began programming to automate workflows. By working with promgraiming languages, I realized the greater utilty of computers. In the Summer of 2018 I moved to San Francisco to pursue a more technical career. I spent the rest of the year studying programming and attending tech meetups in the area, where I encountered machine learning. 
 
-Through the power of machine learning, I can use programming to not only automate established tasks but also enable feats previously impossible. For example, one group I met is using EEG information along with ML to detect emotional states and then build a VR environment to respond. Rather than just automate a process a human can do manually, ML enablaled a new frontier of possibilities. After discovering this, I was confident in what I wanted to do with my time.
+With machine learning, I can use programming to not only automate tasks but also enable feats previously impossible. For example, I met a group using EEG information along with ML to detect emotional states and then build a VR environment to respond. Rather than just automate a process a human can do manually, ML enablaled a new frontier of possibilities. After discovering this, I knew where I needed to focus my time.
 
 I enrolled in Metis, a data science training program I completed Jan-Mar 2019. Along the way I’ve learned a lot and compiled several projects, which I have tried to describe and share in this blog.
 
